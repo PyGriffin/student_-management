@@ -1,37 +1,34 @@
 from django.shortcuts import render
 from django.http import HttpResponseRedirect
 from django.urls import reverse
+from django.views import View
 
 from .models import Student
 from .forms import StudentForm
 
 # Create your views here.
 
-def index(request):
-    students = Student.get_all()
-    if request.method == 'post':
+class IndexView(View):
+    template_name = 'index.html'
+    def get_context(self):
+        students = Student.get_all()
+        context = {
+            'students':students
+        }
+        return context
+
+    def get(self,request):
+        form = StudentForm
+        context = self.get_context()
+        context.update({'form':form})
+        return render(request,self.template_name,context=context)
+
+    def post(self,request):
         form = StudentForm(request.POST)
-        print(form)
         if form.is_valid():
-            cleaned_data = form.cleaned_data
-            # 将数据添加到数据库
-            student = Student()
-            student.name = cleaned_data['name']
-            student.sex = cleaned_data['sex']
-            student.email = cleaned_data['email']
-            student.qq = cleaned_data['qq']
-            student.phone = cleaned_data['phone']
-            student.profession = cleaned_data['profession']
-            student.save()
+            form.save()
             return HttpResponseRedirect(reverse('index'))
+        context = self.get_context()
+        context.update({'form': form})
+        return render(request, self.template_name, context=context)
 
-    else:
-        print('1212')
-        form = StudentForm()
-
-    context = {
-        'form':form,
-        'students':students
-    }
-
-    return render(request,'index.html',context=context)

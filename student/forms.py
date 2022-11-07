@@ -7,7 +7,7 @@ class StudentForm(forms.ModelForm):
         cleaned_data = self.cleaned_data['qq']
         if not cleaned_data.isdigit():
             raise forms.ValidationError('这里必须是一个数字')
-
+        return int(cleaned_data)
     class Meta:
         model = Student
         fields = (

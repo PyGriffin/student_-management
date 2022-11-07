@@ -20,7 +20,7 @@ class Student(models.Model):
     email = models.EmailField(verbose_name='Email')
     qq = models.CharField(max_length=128,verbose_name="QQ")
     phone = models.CharField(max_length=128, verbose_name="电话")
-    status = models.IntegerField(choices=STATUS_ITEMS,verbose_name='审核status')
+    status = models.IntegerField(choices=STATUS_ITEMS,default=0,verbose_name='审核status')
     created_time = models.DateTimeField(auto_now_add=True,editable=False)
 
     def __str__(self):
