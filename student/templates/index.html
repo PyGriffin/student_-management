@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>学员管理系统-by the5fire</title>
+</head>
+<body>
+    <h3><a href="/admin/"> Admin</a></h3>
+
+    <ul>
+        {% for student in students %}
+            <li>{{ student.name}}-{{student.get_status_display}}-{{student.get_sex_display}}</li>
+        {% endfor %}
+    </ul>
+
+    <hr/>
+    <form action="/" method="post">
+        {% csrf_token %}
+        {{ form }}
+        <input type="submit" value="Submit" />
+    </form>
+</body>
+</html>
